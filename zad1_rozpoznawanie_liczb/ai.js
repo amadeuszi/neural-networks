@@ -3,22 +3,7 @@ console.log("hello world")
 const pixels = [];
 const IMAGE_LENGTH = 28 * 28;
 const VECTOR_LENGTH = IMAGE_LENGTH + 1;
-
-var educationDataSet = {
-    "0": [[0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1], [0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0]],
-    "1": [[0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], [0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]],
-    "2": [[1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1], [0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1]],
-    "3": [[1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1], [0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0], [1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]],
-    "4": [[0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], [0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], [1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]],
-    "5": [[1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1], [0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0]],
-    "6": [[1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1], [0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1]],
-    "7": [[1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], [0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], [1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0]],
-    "8": [[0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1], [0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1]],
-    "9": [[1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1], [0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]],
-}
-
 const HOW_MANY_NUMBERS = 10;
-const HOW_MANY_PER_NUMBER = 3;
 
 document.querySelectorAll(".cell").forEach((element, index) => {
     pixels.push(0);
@@ -29,41 +14,52 @@ document.querySelectorAll(".cell").forEach((element, index) => {
     });
 });
 
-function displayPixels() {
-    console.log(pixels);
+function verify() {
+    let correctly = 0;
+    const allImages = trainingImages.length;
+    for (let i = 0; i < trainingImages.length; i++) {
+        const correctNumber = getCurrentCorrectNumber(i);
+        const guessedNumber = guessNumber(i);
+        if (correctNumber === guessedNumber) {
+            correctly++;
+        }
+    }
+
+    console.log(`Final results: ${correctly} / ${allImages}: ${correctly / allImages * 100}%`)
 }
 
-function guessNumberHelper(index) {
-    const currentPixels = [ ...pixels ];
-    currentPixels.push(1);
-    const predictionNumber = math.multiply(math.transpose(weights[index]), math.matrix(currentPixels));
+function guessNumberHelper(index, index2) {
+    console.log(index2);
+    const currentPixels = trainingImages[index2];
+    const predictionNumber = math.multiply(math.transpose(weights[index]), currentPixels);
     const prediction = predictionNumber > 0 ? 1 : -1;
 
     if (prediction === 1) {
         console.log(`To jest ${index}`);
+        return true;
+    } else {
+        return false;
     }
 }
 
-function guessNumber() {
+function guessNumber(index) {
     for (let i = 0; i < HOW_MANY_NUMBERS; i++) {
-        guessNumberHelper(i);
+        if (guessNumberHelper(i, index)) {
+            return i;
+        }
     }
+
+    return -1;
 }
 
 let weights = []
-for (let j = 0; j < 10; j++) {
+for (let j = 0; j < HOW_MANY_NUMBERS; j++) {
     const currentWeights = []
-    for (let i = 0; i < 36; i++) {
+    for (let i = 0; i < VECTOR_LENGTH; i++) {
         currentWeights.push((Math.random() - 0.5) / 10);
     }
     weights.push(math.matrix(currentWeights));
 }
-
-Object.values(educationDataSet).forEach((oneNumber) => {
-    oneNumber.forEach((dataset) => {
-        dataset.push(1);
-    })
-})
 
 let currentEpoch = 0;
 let currentWeightsLife = 0;
@@ -72,14 +68,14 @@ let bestWeights = [ ...weights ];
 
 function learnHelper(index) {
 
+    currentEpoch = 0;
     while (true) {
         let correctlyGuessed = 0;
-        for (let i = 0; i < HOW_MANY_PER_NUMBER * HOW_MANY_NUMBERS * 10; i++) {
-            const guessIndex = Math.floor(Math.random() * HOW_MANY_PER_NUMBER * HOW_MANY_NUMBERS);
+        for (let i = 0; i < 30000; i++) {
+            const guessIndex = Math.floor(Math.random() * 60000);
             const correctNumber = getCurrentCorrectNumber(guessIndex)
-            const oneData = getOneTrainingData(guessIndex);
 
-            const trainingData = math.matrix(oneData);
+            const trainingData = getOneTrainingData(guessIndex);
 
             const prediction = math.multiply(math.transpose(weights[index]), trainingData)
 
@@ -100,15 +96,18 @@ function learnHelper(index) {
                 weights[index] = math.add(weightsDiff, weights[index])
                 currentWeightsLife = 0;
             }
+            if (i % 10000 === 0) {
+                console.log(`How many : ${correctlyGuessed} / ${i}`)
+            }
         }
         console.log("correctlyGuessed", correctlyGuessed);
         currentEpoch++;
-        if (currentEpoch > 1000) {
+        if (currentEpoch > 0) {
             console.log("limit przekroczony - kończę naukę")
             break;
         }
-        if (correctlyGuessed === HOW_MANY_PER_NUMBER * HOW_MANY_NUMBERS * 10) {
-            console.log("koniec nauki");
+        if (correctlyGuessed >= 119900) {
+            console.log("dobry wynik - koniec nauki");
             break;
         }
     }
@@ -130,17 +129,11 @@ window.show = (newPixels) => {
 let currentDataSet = 0;
 
 function getCurrentCorrectNumber(index) {
-    return Math.floor(index / HOW_MANY_PER_NUMBER);
+    return trainingLabels[index];
 }
 
 function getOneTrainingData(index) {
-    const currentNumber = getCurrentCorrectNumber(index).toString();
-    const oneDataSet = educationDataSet[currentNumber][index % HOW_MANY_PER_NUMBER]
-    if (!oneDataSet.length) {
-        throw new Error(`Couldn't find data set: currentNumber: ${currentNumber}, current data set: ${currentDataSet}`)
-    }
-
-    return oneDataSet;
+    return trainingImages[index];
 }
 
 function showDataSet() {
@@ -165,6 +158,7 @@ function readSingleFile(e) {
 var trainingImages = []
 
 function parseImages(contents) {
+    trainingImages = [];
     const view = new Uint8Array(contents);
     let start = 16;
     let i = start;
@@ -174,9 +168,10 @@ function parseImages(contents) {
         }
         const currentImage = []
         for (let j = 0; j < IMAGE_LENGTH; j++) {
-            currentImage.push(view.at(i) > 0 ? 1 : 0);
+            currentImage.push(view.at(i));
             i++;
         }
+        currentImage.push(1);
         trainingImages.push(math.matrix(currentImage));
         console.log(`image done ${Math.floor(i / IMAGE_LENGTH)}`)
     }
@@ -206,6 +201,7 @@ function readSingleFile2(e) {
 var trainingLabels = []
 
 function parseLabels(contents) {
+    trainingLabels = [];
     const view = new Uint8Array(contents);
     let start = 8;
     for (let i = start; i < view.length; i++) {
