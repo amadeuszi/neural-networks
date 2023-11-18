@@ -144,8 +144,8 @@ function getOneTrainingData(index) {
 }
 
 function showDataSet() {
-    const oneDataSet = getOneTrainingData(currentDataSet)
-    window.show(oneDataSet);
+    const oneDataSet = trainingImages[currentDataSet]
+    window.show(oneDataSet._data);
     currentDataSet = currentDataSet + 1;
 }
 
@@ -165,7 +165,6 @@ function readSingleFile(e) {
 var trainingImages = []
 
 function parseImages(contents) {
-    var element = document.getElementById('file-content');
     const view = new Uint8Array(contents);
     let start = 16;
     let i = start;
@@ -189,3 +188,32 @@ function parseImages(contents) {
 
 document.getElementById('file-input')
     .addEventListener('change', readSingleFile, false);
+
+
+function readSingleFile2(e) {
+    var file = e.target.files[0];
+    if (!file) {
+        return;
+    }
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        var contents = e.target.result;
+        parseLabels(contents);
+    };
+    reader.readAsArrayBuffer(file);
+}
+
+var trainingLabels = []
+
+function parseLabels(contents) {
+    const view = new Uint8Array(contents);
+    let start = 8;
+    for (let i = start; i < view.length; i++) {
+        trainingLabels.push(view.at(i));
+    }
+
+    window.console.log(trainingLabels)
+}
+
+document.getElementById('file-input2')
+    .addEventListener('change', readSingleFile2, false);
