@@ -1,0 +1,15 @@
+.cell {
+    width: 20px;
+    height: 20px;
+    border: 1px solid;
+    display: inline-block;
+    maring: 0px 1px 0px 1px;
+}
+
+.cell[value="1"] {
+    background-color: black;   
+}
+
+button {
+    padding: 50px;
+}
