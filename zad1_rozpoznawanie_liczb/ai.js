@@ -15,6 +15,7 @@ document.querySelectorAll(".cell").forEach((element, index) => {
 });
 
 function verify() {
+    debugger;
     let correctly = 0;
     const allImages = trainingImages.length;
     for (let i = 0; i < trainingImages.length; i++) {
@@ -28,81 +29,97 @@ function verify() {
     console.log(`Final results: ${correctly} / ${allImages}: ${correctly / allImages * 100}%`)
 }
 
-function guessNumberHelper(index, index2) {
-    console.log(index2);
-    const currentPixels = trainingImages[index2];
-    const predictionNumber = math.multiply(math.transpose(weights[index]), currentPixels);
-    const prediction = predictionNumber > 0 ? 1 : -1;
-
-    if (prediction === 1) {
-        console.log(`To jest ${index}`);
-        return true;
-    } else {
-        return false;
-    }
+function guessNumberHelper(number, trainingIndex) {
+    const currentPixels = trainingImages[trainingIndex];
+    const predictionNumber = math.multiply(math.transpose(weights[number]), currentPixels);
+    return predictionNumber;
 }
 
 function guessNumber(index) {
+    let maxIndex = 0;
+    let maxNumber = -1000000;
     for (let i = 0; i < HOW_MANY_NUMBERS; i++) {
-        if (guessNumberHelper(i, index)) {
-            return i;
+        const prediction = guessNumberHelper(i, index);
+        if (prediction > maxNumber) {
+            maxNumber = prediction;
+            maxIndex = i;
         }
     }
 
-    return -1;
+    return maxIndex;
 }
 
 let weights = []
 for (let j = 0; j < HOW_MANY_NUMBERS; j++) {
     const currentWeights = []
     for (let i = 0; i < VECTOR_LENGTH; i++) {
-        currentWeights.push((Math.random() - 0.5) / 10);
+        currentWeights.push((Math.random() - 0.5) / 1000000);
     }
     weights.push(math.matrix(currentWeights));
 }
 
 let currentEpoch = 0;
-let currentWeightsLife = 0;
-let bestWeightsLife = 0;
-let bestWeights = [ ...weights ];
 
 function learnHelper(index) {
-
     currentEpoch = 0;
     while (true) {
         let correctlyGuessed = 0;
-        for (let i = 0; i < 30000; i++) {
+        for (let i = 0; i < 4 * 60000; i++) {
             const guessIndex = Math.floor(Math.random() * 60000);
+            if (isNaN(guessIndex)) {
+                console.log("prediction is nan")
+            }
             const correctNumber = getCurrentCorrectNumber(guessIndex)
-
+            if (isNaN(correctNumber)) {
+                console.log("prediction is nan")
+            }
             const trainingData = getOneTrainingData(guessIndex);
-
+            if (isNaN(trainingData._data[0])) {
+                console.log("prediction is nan")
+            }
             const prediction = math.multiply(math.transpose(weights[index]), trainingData)
 
+            if (isNaN(prediction)) {
+                console.log("prediction is nan")
+            }
+
             const actualValue = correctNumber === index ? 1 : -1;
+            if (isNaN(actualValue)) {
+                console.log("prediction is nan")
+            }
             const predictedValue = prediction > 0 ? 1 : -1
+            if (isNaN(predictedValue)) {
+                console.log("prediction is nan")
+            }
+
+            const error = actualValue - prediction;
+            if (isNaN(error)) {
+                console.log("prediction is nan")
+            }
+            const multiplier = error / 1000000;
+            if (isNaN(multiplier)) {
+                console.log("prediction is nan")
+            }
+            const weightsDiff = math.multiply(multiplier, trainingData)
+            if (isNaN(weightsDiff._data[0])) {
+                console.log("prediction is nan")
+            }
+            weights[index] = math.add(weightsDiff, weights[index])
+            if (isNaN(weights[index]._data[0])) {
+                console.log("prediction is nan")
+            }
 
             if (actualValue === predictedValue) {
                 correctlyGuessed++;
-                currentWeightsLife++;
-                if (currentWeightsLife > bestWeightsLife) {
-                    bestWeightsLife = currentWeightsLife;
-                    bestWeights[index] = weights[index];
-                }
-            } else {
-                const error = actualValue - predictedValue;
-                const multiplier = error / 100;
-                const weightsDiff = math.multiply(multiplier, trainingData)
-                weights[index] = math.add(weightsDiff, weights[index])
-                currentWeightsLife = 0;
             }
-            if (i % 10000 === 0) {
+
+            if (i % 4 * 10000 === 0) {
                 console.log(`How many : ${correctlyGuessed} / ${i}`)
             }
         }
         console.log("correctlyGuessed", correctlyGuessed);
         currentEpoch++;
-        if (currentEpoch > 0) {
+        if (currentEpoch > 5) {
             console.log("limit przekroczony - kończę naukę")
             break;
         }
@@ -111,7 +128,6 @@ function learnHelper(index) {
             break;
         }
     }
-    weights = bestWeights;
 }
 
 function learn() {
@@ -168,7 +184,7 @@ function parseImages(contents) {
         }
         const currentImage = []
         for (let j = 0; j < IMAGE_LENGTH; j++) {
-            currentImage.push(view.at(i));
+            currentImage.push(view.at(i) / 255);
             i++;
         }
         currentImage.push(1);
