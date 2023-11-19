@@ -3,6 +3,26 @@ const IMAGE_LENGTH = 28 * 28;
 const VECTOR_LENGTH = IMAGE_LENGTH + 1;
 const HOW_MANY_NUMBERS = 10;
 
+let currentChartX = 0;
+const xValues = [];
+
+const chart = new Chart("myChart", {
+    type: "line",
+    data: {
+        labels: xValues,
+        datasets: [
+            {
+                data: [],
+                borderColor: "blue",
+                fill: false
+            },
+        ]
+    },
+    options: {
+        legend: { display: false }
+    }
+});
+
 document.querySelectorAll(".cell").forEach((element, index) => {
     displayedPixels.push(0);
     element.setAttribute("value", displayedPixels[index]);
@@ -77,65 +97,39 @@ let currentEpoch = 0;
 
 let learningConstant = 10000;
 
-function learnHelper(index) {
-    currentNumber = index;
+function learnHelper(number) {
+    currentNumber = number;
     currentEpoch = 0;
     while (true) {
         let correctlyGuessed = 0;
-        for (let i = 0; i < 1 * 60000; i++) {
+        for (let i = 0; i < 2 * 60000; i++) {
             const guessIndex = Math.floor(Math.random() * 60000);
-            if (isNaN(guessIndex)) {
-                console.log("prediction is nan")
-            }
             const correctNumber = getCurrentCorrectNumber(guessIndex)
-            if (isNaN(correctNumber)) {
-                console.log("prediction is nan")
-            }
             const trainingData = getOneTrainingData(guessIndex);
-            if (isNaN(trainingData._data[0])) {
-                console.log("prediction is nan")
-            }
-            const prediction = math.multiply(math.transpose(weights[index]), trainingData)
+            const prediction = math.multiply(math.transpose(weights[number]), trainingData)
 
-            if (isNaN(prediction)) {
-                console.log("prediction is nan")
-            }
-
-            const actualValue = correctNumber === index ? 1 : -1;
-            if (isNaN(actualValue)) {
-                console.log("prediction is nan")
-            }
+            const actualValue = correctNumber === number ? 1 : -1;
             const predictedValue = prediction > 0 ? 1 : -1
-            if (isNaN(predictedValue)) {
-                console.log("prediction is nan")
-            }
 
             const error = actualValue - prediction;
-            if (isNaN(error)) {
-                console.log("prediction is nan")
-            }
             const multiplier = error / learningConstant;
-            if (isNaN(multiplier)) {
-                console.log("prediction is nan")
-            }
             const weightsDiff = math.multiply(multiplier, trainingData)
-            if (isNaN(weightsDiff._data[0])) {
-                console.log("prediction is nan")
-            }
-            weights[index] = math.add(weightsDiff, weights[index])
-            if (isNaN(weights[index]._data[0])) {
-                console.log("prediction is nan")
-            }
+
+            weights[number] = math.add(weightsDiff, weights[number])
 
             if (actualValue === predictedValue) {
                 correctlyGuessed++;
             }
 
-            if (i % (6 * 10000) === 0) {
-                console.log(`How many : ${correctlyGuessed} / ${i}`)
+            if (i % (1 * 10000) === 1 * 10000 - 1) {
+                console.log(`How many : ${correctlyGuessed} / ${i + 1}: ${correctlyGuessed / (i + 1) * 100}%`);
+                const correctPercentage = correctlyGuessed / (i + 1) * 100;
+                chart.data.datasets[0].data.push(100 - correctPercentage);
+                chart.data.labels.push(currentChartX++);
+                chart.update()
             }
         }
-        console.log(`Current number: ${currentNumber} . Correctly guessed ${correctlyGuessed}` );
+        console.log(`Current number: ${currentNumber} . Correctly guessed ${correctlyGuessed}`);
         currentEpoch++;
         if (currentEpoch > 0) {
             console.log("limit przekroczony - kończę naukę")
@@ -189,7 +183,7 @@ function readSingleFile(e) {
         return;
     }
     var reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
         var contents = e.target.result;
         parseImages(contents);
     };
@@ -232,7 +226,7 @@ function readSingleFile2(e) {
         return;
     }
     var reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
         var contents = e.target.result;
         parseLabels(contents);
     };
@@ -262,7 +256,7 @@ function readSingleFile3(e) {
         return;
     }
     var reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
         var contents = e.target.result;
         parseImages2(contents);
     };
@@ -305,7 +299,7 @@ function readSingleFile4(e) {
         return;
     }
     var reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
         var contents = e.target.result;
         parseLabels2(contents);
     };
